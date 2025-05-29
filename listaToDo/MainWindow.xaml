@@ -5,8 +5,29 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:listaToDo"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+                Title="Moja lista zadań" Height="620" Width="535">
     <Grid>
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="25"></ColumnDefinition>
+            <ColumnDefinition Width="100"></ColumnDefinition>
+            <ColumnDefinition Width="115"></ColumnDefinition>
+            <ColumnDefinition Width="115"></ColumnDefinition>
+            <ColumnDefinition Width="115"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="50"></RowDefinition>
+            <RowDefinition Height="5"></RowDefinition>
+            <RowDefinition Height="70"></RowDefinition>
+            <RowDefinition Height="10"></RowDefinition>
+            <RowDefinition Height="22"></RowDefinition>
+            <RowDefinition Height="30"></RowDefinition>
+            <RowDefinition Height="22"></RowDefinition>
+            <RowDefinition Height="115"></RowDefinition>
+            <RowDefinition Height="115"></RowDefinition>
+            <RowDefinition Height="115"></RowDefinition>
+            <RowDefinition Height="14"></RowDefinition>
+        </Grid.RowDefinitions>
     </Grid>
 </Window>
