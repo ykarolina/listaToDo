@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Title="Moja lista zadań" Height="650" Width="535">
 
+
     <Grid>
 
         <Grid.ColumnDefinitions>
@@ -48,7 +49,7 @@
                 Margin="0,4,5,5" Width="215" Height="43"
                 Background="#f8f1ee" BorderBrush="#383332"
                 BorderThickness="2" CornerRadius="10">
-            <TextBox Background="Transparent" BorderThickness="0"
+            <TextBox Background="Transparent" BorderThickness="0" x:Name="texttitle" 
                      FontSize="17" FontFamily="Comic Sans MS"
                      HorizontalContentAlignment="Left"
                      VerticalContentAlignment="Center"
@@ -62,11 +63,11 @@
                 Margin="13,5,16,4" Height="43"
                 Background="#f8f1ee" BorderBrush="#383332"
                 BorderThickness="2" CornerRadius="10">
-            <DatePicker Background="Transparent" BorderThickness="0"
-            FontSize="13" FontFamily="Comic Sans MS"
+            <DatePicker Background="Transparent" BorderThickness="0" x:Name="datapic" SelectedDateChanged="change_data"
+            FontSize="10" FontFamily="Comic Sans MS"
             VerticalContentAlignment="Center"
             Padding="10,0"
-            SelectedDateFormat="Short" HorizontalAlignment="Left" Width="42" Margin="48,0,0,0" RenderTransformOrigin="0.799,0.334"/>
+            SelectedDateFormat="Short" HorizontalAlignment="Left" Width="42" Margin="48,0,0,0" RenderTransformOrigin="0.799,0.334" Height="39" VerticalAlignment="Top"/>
         </Border>
         <Border Grid.Column="4" Grid.Row="1"
                 Margin="10,7,10,2" Width="115" Height="43"
@@ -76,7 +77,7 @@
                       FontSize="15" FontFamily="Comic Sans MS"
                       HorizontalContentAlignment="Center"
                       VerticalContentAlignment="Center"
-                      FontWeight="Bold"
+                      FontWeight="Bold" x:Name="comboprio"
                       SelectedIndex="0" Padding="5,0" Margin="4,2,4,1">
                 <ComboBoxItem Content="Priorytet" IsEnabled="False" Foreground="Gray"/>
                 <ComboBoxItem Content="Niski"/>
@@ -84,13 +85,13 @@
                 <ComboBoxItem Content="Wysoki"/>
             </ComboBox>
         </Border>
-        <Label Grid.Column="3" FontSize="17" FontFamily="Comic Sans MS" Content="data" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Center" Width="52" Margin="23,0,0,0"/>
+        <Label Grid.Column="3" FontSize="17" FontFamily="Comic Sans MS" Content="data" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Center" Width="52" Margin="23,0,0,0" x:Name="labdata"/>
 
         <Border Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3"
         Margin="0,4,5,5" Width="345" Height="55"
         Background="#f8f1ee" BorderBrush="#383332"
         BorderThickness="2" CornerRadius="10">
-            <TextBox Background="Transparent" BorderThickness="0"
+            <TextBox Background="Transparent" BorderThickness="0"  x:Name="textdescrip"
              FontSize="17" FontFamily="Comic Sans MS"
              HorizontalContentAlignment="Left"
              VerticalContentAlignment="Center"
@@ -100,9 +101,9 @@
         </Border>
         <Border Grid.Column="4" Grid.Row="3" Height="48" Width="110" Background="#f783ac" BorderBrush="#383332"
             BorderThickness="2" CornerRadius="10">
-            <Button Grid.Column="4" Content="dodaj zadanie" HorizontalAlignment="Center"
+            <Button Grid.Column="4" Content="dodaj zadanie" HorizontalAlignment="Center" Click="Button_Click"
                 Grid.Row="3" VerticalAlignment="Center" 
-                Height="40" Width="95" Background="#f783ac" FontFamily="Comic Sans MS" FontWeight="Bold" BorderBrush="#f783ac" FontSize="13"/>
+                Height="40" Width="95" Background="#f783ac" FontFamily="Comic Sans MS" FontWeight="Bold" BorderBrush="#f783ac" FontSize="13" />
         </Border>
         <Label Grid.Column="1" Content="sortuj wg" HorizontalAlignment="Center" FontFamily="Comic Sans MS" FontWeight="Bold" Grid.Row="4" VerticalAlignment="Center" Grid.RowSpan="2" FontSize="15" Width="100"/>
 
@@ -124,6 +125,34 @@
         <RadioButton Grid.Column="2" Content="Wszystkie" FontSize="14" FontFamily="Comic Sans MS"  IsChecked="True" FontWeight="Bold"  HorizontalAlignment="Left" Margin="60,0,0,0" Grid.Row="6" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
         <RadioButton Grid.Column="3" Content="Ukończone" FontSize="14" FontFamily="Comic Sans MS" FontWeight="Bold"  HorizontalAlignment="Left" Margin="41,0,0,0" Grid.Row="6" VerticalAlignment="Center" RenderTransformOrigin="0.743,0.669"/>
         <RadioButton Grid.Column="4" Content="Do zrobienia" FontSize="14" FontFamily="Comic Sans MS"  FontWeight="Bold"  HorizontalAlignment="Left" Grid.Row="6" VerticalAlignment="Center" Margin="13,0,0,0" />
+
+        <ScrollViewer Grid.Column="1" Grid.Row="8"   Grid.RowSpan="3" Margin="0,0,12,0" Grid.ColumnSpan="4">
+            <StackPanel>
+                <ItemsControl ItemsSource="{Binding Tasks}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel/> 
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="Gray" BorderThickness="1" Padding="10" Margin="0,0,0,10" CornerRadius="5">
+                                <StackPanel >
+                                    <TextBlock Text="{Binding Title}" FontWeight="Bold" FontSize="14"/>
+                                    <TextBlock Text="{Binding Description}" TextWrapping="Wrap" Margin="0,5,0,5"/>
+                                    <TextBlock Text="{Binding DueDate, StringFormat='Termin: {0:dd.MM.yyyy}'}"/>
+                                    <CheckBox Content="Ukończone" IsChecked="{Binding IsCompleted}" Margin="0,5,0,0"/>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
+
+
+
 
     </Grid>
 </Window>
