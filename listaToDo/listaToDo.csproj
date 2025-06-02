@@ -8,4 +8,12 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="kosz.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="kosz.jpg" />
+  </ItemGroup>
+
 </Project>
