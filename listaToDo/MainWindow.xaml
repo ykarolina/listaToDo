@@ -122,9 +122,9 @@
                 <ComboBoxItem Content="status ukończenia"/>
             </ComboBox>
         </Border>
-        <RadioButton Grid.Column="2" Content="Wszystkie" FontSize="14" FontFamily="Comic Sans MS"  IsChecked="True" FontWeight="Bold"  HorizontalAlignment="Left" Margin="60,0,0,0" Grid.Row="6" VerticalAlignment="Center" Grid.ColumnSpan="2"/>
-        <RadioButton Grid.Column="3" Content="Ukończone" FontSize="14" FontFamily="Comic Sans MS" FontWeight="Bold"  HorizontalAlignment="Left" Margin="41,0,0,0" Grid.Row="6" VerticalAlignment="Center" RenderTransformOrigin="0.743,0.669"/>
-        <RadioButton Grid.Column="4" Content="Do zrobienia" FontSize="14" FontFamily="Comic Sans MS"  FontWeight="Bold"  HorizontalAlignment="Left" Grid.Row="6" VerticalAlignment="Center" Margin="13,0,0,0" />
+        <RadioButton Grid.Column="2" x:Name="radioAll" Checked="RadioButton_Checked" Content="Wszystkie" FontSize="14" FontFamily="Comic Sans MS"  IsChecked="True" FontWeight="Bold"  HorizontalAlignment="Left" Margin="60,0,0,0" Grid.Row="6" VerticalAlignment="Center" Grid.ColumnSpan="2" />
+        <RadioButton Grid.Column="3" x:Name="radioCompleted" Checked="RadioButton_Checked" Content="Ukończone" FontSize="14" FontFamily="Comic Sans MS" FontWeight="Bold"  HorizontalAlignment="Right" Grid.Row="6" VerticalAlignment="Center" RenderTransformOrigin="0.743,0.669"/>
+        <RadioButton Grid.Column="4"  x:Name="radioIncomplete" Checked="RadioButton_Checked" Content="Do zrobienia" FontSize="14" FontFamily="Comic Sans MS"  FontWeight="Bold"  HorizontalAlignment="Left" Grid.Row="6" VerticalAlignment="Center" Margin="13,0,0,0" />
 
         <ScrollViewer Grid.Column="1" Grid.Row="8"   Grid.RowSpan="3" Margin="0,0,12,0" Grid.ColumnSpan="4">
             <StackPanel>
@@ -157,12 +157,23 @@
 
                                     <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top">
 
-                                        <Button Width="35" Height="35" Margin="10,0,10,10" Background="Transparent" BorderThickness="0" HorizontalAlignment="Right">
-                                            <Image Source="/kosz.jpg" Stretch="Uniform"/>
+                                        <Button Width="35" Height="35" Margin="10,0,10,10" Background="Transparent" BorderThickness="0" HorizontalAlignment="Right" x:Name="buttontra" Click="DeleteTask_Click" >
+                                            <Image Source="/kosz.jpg" Stretch="Uniform" />
                                         </Button>
-                                        <Border Grid.Column="4" Grid.Row="3" Height="40" Width="100" Background="#fcc2d7" BorderBrush="#383332"
-                                                     BorderThickness="2" CornerRadius="10">
-                                            <Button Content="zakończ"  FontSize="15" Padding="10,2" Height="30" Width="90" Background="Transparent"  FontWeight="Bold" BorderBrush="#fcc2d7"/>
+                                        <Border Grid.Column="4" Grid.Row="3" Height="40" Width="100" Background="#fcc2d7"
+                                                BorderBrush="#383332" BorderThickness="2" CornerRadius="10">
+                                            <Button x:Name="buttonzak" FontSize="12" Padding="10,2" Height="30" Width="90" Background="Transparent" FontWeight="Bold" BorderBrush="#fcc2d7" Click="buttonzak_Click">
+                                                <Button.Style>
+                                                    <Style TargetType="Button">
+                                                        <Setter Property="Content" Value="zakończ" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding IsCompleted}" Value="True">
+                                                                <Setter Property="Content" Value="zakończone" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Button.Style>
+                                            </Button>
                                         </Border>
                                     </StackPanel>
                                 </Grid>

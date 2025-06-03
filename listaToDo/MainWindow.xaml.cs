@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections;
+using System.IO;
 
 namespace listaToDo
 {
@@ -26,7 +27,114 @@ namespace listaToDo
         {
             InitializeComponent();
             DataContext = this;
+            LoadTasksFromFile();
+
+            var view = CollectionViewSource.GetDefaultView(Tasks);
+            view.Filter = FilterTasks;
         }
+
+        private readonly string dataFile = "tasks.txt";
+
+        private void SaveTasksToFile()
+        {
+            var lines = new List<string>();
+
+            foreach (var task in Tasks)
+            {
+                
+                string line = $"{Escape(task.Title)};{Escape(task.Description)};{task.DueDate:yyyy-MM-dd};{task.Priority};{task.IsCompleted}";
+                lines.Add(line);
+            }
+
+            File.WriteAllLines(dataFile, lines);
+        }
+
+        
+        private string Escape(string s)
+        {
+            if (string.IsNullOrEmpty(s))
+                return "";
+
+            
+            return s.Replace(";", "\\;").Replace("\n", "\\n").Replace("\r", "");
+        }
+        private void LoadTasksFromFile()
+        {
+            if (!File.Exists(dataFile))
+                return;
+
+            var lines = File.ReadAllLines(dataFile);
+            Tasks.Clear();
+
+            foreach (var line in lines)
+            {
+                var parts = SplitCsvLine(line);
+
+                if (parts.Length == 5)
+                {
+                    var task = new TaskItem
+                    {
+                        Title = Unescape(parts[0]),
+                        Description = Unescape(parts[1]),
+                        DueDate = DateTime.TryParse(parts[2], out var dt) ? dt : DateTime.Now,
+                        Priority = parts[3],
+                        IsCompleted = bool.TryParse(parts[4], out var completed) && completed
+                    };
+
+                    Tasks.Add(task);
+                }
+            }
+        }
+
+        // Pomocnicza metoda do "rozpakowania" pola (odwrotność Escape)
+        private string Unescape(string s)
+        {
+            if (string.IsNullOrEmpty(s))
+                return "";
+
+            return s.Replace("\\;", ";").Replace("\\n", "\n");
+        }
+
+        // Rozdzielamy linię po średnikach z uwzględnieniem escape
+        private string[] SplitCsvLine(string line)
+        {
+            var result = new List<string>();
+            var current = new StringBuilder();
+            bool escape = false;
+
+            for (int i = 0; i < line.Length; i++)
+            {
+                if (escape)
+                {
+                    current.Append(line[i]);
+                    escape = false;
+                }
+                else
+                {
+                    if (line[i] == '\\')
+                    {
+                        escape = true;
+                    }
+                    else if (line[i] == ';')
+                    {
+                        result.Add(current.ToString());
+                        current.Clear();
+                    }
+                    else
+                    {
+                        current.Append(line[i]);
+                    }
+                }
+            }
+            result.Add(current.ToString());
+            return result.ToArray();
+        }
+        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+        {
+            SaveTasksToFile();
+            base.OnClosing(e);
+        }
+
         private void combosort_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var selected = (combosort.SelectedItem as ComboBoxItem)?.Content?.ToString();
@@ -45,6 +153,10 @@ namespace listaToDo
             {
                 view.CustomSort = new PriorityComparer();
             }
+            else if (selected == "status ukończenia")
+            {
+                view.SortDescriptions.Add(new SortDescription(nameof(TaskItem.IsCompleted), ListSortDirection.Ascending));
+            }
         }
         private void change_data(object sender, SelectionChangedEventArgs e)
         {
@@ -53,6 +165,7 @@ namespace listaToDo
             else
                 labdata.Content = "data";
         }
+        
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             string tytul = texttitle.Text;
@@ -94,6 +207,44 @@ namespace listaToDo
                 textdescrip.Text = "";
             }
         }
+
+        private void buttonzak_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is Button btn && btn.DataContext is TaskItem task)
+            {
+                task.IsCompleted = !task.IsCompleted;
+
+                CollectionViewSource.GetDefaultView(Tasks).Refresh();
+            }
+
+        }
+
+        private void DeleteTask_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            if (button?.DataContext is TaskItem taskToRemove)
+            {
+                Tasks.Remove(taskToRemove);
+            }
+        }
+        private bool FilterTasks(object obj)
+        {
+            if (obj is TaskItem task)
+            {
+                if (radioAll.IsChecked == true)
+                    return true;
+                else if (radioCompleted.IsChecked == true)
+                    return task.IsCompleted;
+                else if (radioIncomplete.IsChecked == true)
+                    return !task.IsCompleted;
+            }
+            return false;
+        }
+        private void RadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            CollectionViewSource.GetDefaultView(Tasks).Refresh();
+        }
+
     }
 
     public class TaskItem : INotifyPropertyChanged
@@ -134,6 +285,7 @@ namespace listaToDo
             set { priority = value; OnPropertyChanged(nameof(Priority)); }
         }
 
+
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged(string propertyName) =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
@@ -159,6 +311,8 @@ namespace listaToDo
             }
             return 0;
         }
+
     }
+
 
 }
