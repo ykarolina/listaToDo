@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:listaToDo"
         mc:Ignorable="d"
-        Title="Moja lista zadań" Height="650" Width="535">
+        Title="Moja lista zadań" Height="650" Width="535" WindowStartupLocation="CenterScreen">
 
 
     <Grid>
@@ -34,7 +34,7 @@
             <RowDefinition Height="14"/>
         </Grid.RowDefinitions>
 
-
+        <!-- label tytułowy -->
         <Label Grid.Column="1" Grid.Row="0"
                Grid.ColumnSpan="2"
                Content="Nowe zadanie"
@@ -43,8 +43,8 @@
                Margin="0,10,0,0"
                VerticalAlignment="Top"
                HorizontalAlignment="Left"/>
-
-
+        
+        <!--textbox tytułowy -->
         <Border Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2"
                 Margin="0,4,5,5" Width="215" Height="43"
                 Background="#f8f1ee" BorderBrush="#383332"
@@ -55,10 +55,10 @@
                      VerticalContentAlignment="Center"
                      Margin="5,0"
                      Foreground="Gray"
-                     Text="Wpisz zadanie..." GotFocus="texttitle_GotFocus"/>
+                     Text="Wpisz tytuł..." GotFocus="texttitle_GotFocus"/>
         </Border>
 
-
+        <!--wybór daty (datapicer)  -->
         <Border Grid.Column="3" Grid.Row="1"
                 Margin="13,5,16,4" Height="43"
                 Background="#f8f1ee" BorderBrush="#383332"
@@ -69,6 +69,8 @@
             Padding="10,0"
             SelectedDateFormat="Short" HorizontalAlignment="Left" Width="42" Margin="48,0,0,0" RenderTransformOrigin="0.799,0.334" Height="39"  VerticalAlignment="Center"/>
         </Border>
+        
+        <!--wybór priorytetu-->
         <Border Grid.Column="4" Grid.Row="1"
                 Margin="10,7,10,2" Width="115" Height="43"
                 Background="#FFE8E8E8" BorderBrush="#383332"
@@ -85,8 +87,10 @@
                 <ComboBoxItem Content="Wysoki"/>
             </ComboBox>
         </Border>
+        <!--  label do zmiany daty-->
         <Label Grid.Column="3" FontSize="14" FontWeight="Bold" FontFamily="Comic Sans MS" Content="data" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Center" Width="52" Margin="23,0,0,0" x:Name="labdata"/>
 
+        <!-- textbox z opisem -->
         <Border Grid.Column="1" Grid.Row="3" Grid.ColumnSpan="3"
         Margin="0,4,5,5" Width="345" Height="55"
         Background="#f8f1ee" BorderBrush="#383332"
@@ -99,18 +103,22 @@
              Foreground="Gray"
              Text="Dodaj krótki opis" GotFocus="textdescrip_GotFocus"/>
         </Border>
+        
+        <!-- button dodający zadanie-->
         <Border Grid.Column="4" Grid.Row="3" Height="48" Width="110" Background="#f783ac" BorderBrush="#383332"
             BorderThickness="2" CornerRadius="10">
             <Button Grid.Column="4" Content="dodaj zadanie" HorizontalAlignment="Center" Click="Button_Click"
                 Grid.Row="3" VerticalAlignment="Center" 
                 Height="40" Width="95" Background="#f783ac" FontFamily="Comic Sans MS" FontWeight="Bold" BorderBrush="#f783ac" FontSize="13" />
         </Border>
-        <Label Grid.Column="1" Content="sortuj wg" HorizontalAlignment="Center" FontFamily="Comic Sans MS" FontWeight="Bold" Grid.Row="4" VerticalAlignment="Center" Grid.RowSpan="2" FontSize="15" Width="100"/>
+        <!-- label sortuj -->
+        <Label Grid.Column="1" Content="sortuj wg" HorizontalAlignment="Left" FontFamily="Comic Sans MS" FontWeight="Bold" Grid.Row="4" VerticalAlignment="Top" Grid.RowSpan="3" FontSize="15" Width="100" Grid.ColumnSpan="2" Margin="10,3,0,0"/>
 
-        <Border Grid.Column="1" Grid.Row="6"
-        Margin="0,1,72,1" Height="27"
+        <!-- wybór opcji sortowania -->
+        <Border Grid.Column="1" Grid.Row="4"
+        Margin="95,6,107,29" Height="25"
         Background="#FFE8E8E8" BorderBrush="#383332"
-        BorderThickness="2" CornerRadius="10" Grid.ColumnSpan="2">
+        BorderThickness="2" CornerRadius="10" Grid.ColumnSpan="3" Grid.RowSpan="3">
             <ComboBox Background="Gray" BorderThickness="0"
               FontSize="12" FontFamily="Comic Sans MS"
               HorizontalContentAlignment="Center"
@@ -119,13 +127,15 @@
               SelectedIndex="0" Padding="5,0" Margin="4,2,4,1" x:Name="combosort" SelectionChanged="combosort_SelectionChanged">
                 <ComboBoxItem Content="daty"/>
                 <ComboBoxItem Content="priorytetu"/>
-                <ComboBoxItem Content="status ukończenia"/>
+                <ComboBoxItem Content="statusu ukończenia"/>
             </ComboBox>
         </Border>
-        <RadioButton Grid.Column="2" x:Name="radioAll" Checked="RadioButton_Checked" Content="Wszystkie" FontSize="14" FontFamily="Comic Sans MS"  IsChecked="True" FontWeight="Bold"  HorizontalAlignment="Left" Margin="60,0,0,0" Grid.Row="6" VerticalAlignment="Center" Grid.ColumnSpan="2" />
-        <RadioButton Grid.Column="3" x:Name="radioCompleted" Checked="RadioButton_Checked" Content="Ukończone" FontSize="14" FontFamily="Comic Sans MS" FontWeight="Bold"  HorizontalAlignment="Right" Grid.Row="6" VerticalAlignment="Center" RenderTransformOrigin="0.743,0.669"/>
-        <RadioButton Grid.Column="4"  x:Name="radioIncomplete" Checked="RadioButton_Checked" Content="Do zrobienia" FontSize="14" FontFamily="Comic Sans MS"  FontWeight="Bold"  HorizontalAlignment="Left" Grid.Row="6" VerticalAlignment="Center" Margin="13,0,0,0" />
+        <!-- radiobuttony -->
+        <RadioButton Grid.Column="2" x:Name="radioAll" Checked="RadioButton_Checked" Content="Wszystkie" FontSize="14" FontFamily="Comic Sans MS"  IsChecked="True" FontWeight="Bold"  HorizontalAlignment="Left" Margin="60,10,0,0" Grid.Row="6" VerticalAlignment="Top" Grid.ColumnSpan="2" />
+        <RadioButton Grid.Column="3" x:Name="radioCompleted" Checked="RadioButton_Checked" Content="Ukończone" FontSize="14" FontFamily="Comic Sans MS" FontWeight="Bold"  HorizontalAlignment="Right" Grid.Row="6" VerticalAlignment="Top" RenderTransformOrigin="0.743,0.669" Margin="0,10,0,0"/>
+        <RadioButton Grid.Column="4"  x:Name="radioIncomplete" Checked="RadioButton_Checked" Content="Do zrobienia" FontSize="14" FontFamily="Comic Sans MS"  FontWeight="Bold"  HorizontalAlignment="Left" Grid.Row="6" VerticalAlignment="Top" Margin="13,10,0,0" />
 
+        <!-- zadania -->
         <ScrollViewer Grid.Column="1" Grid.Row="8"   Grid.RowSpan="3" Margin="0,0,12,0" Grid.ColumnSpan="4">
             <StackPanel>
                 <ItemsControl ItemsSource="{Binding Tasks}">
@@ -146,20 +156,23 @@
 
 
                                     <StackPanel Grid.Column="0">
+                                       
+
                                         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                                            <TextBlock Text="{Binding Title}" FontWeight="Bold" FontSize="16" Foreground="#333"/>
-                                            <TextBlock Text="{Binding DueDate, StringFormat='  {0:dd.MM.yyyy}'}" Foreground="#777" FontSize="12" VerticalAlignment="Bottom" Margin="10,0,0,0"/>
+                                            <TextBlock Text="{Binding Title}" FontWeight="Bold" FontSize="16" Foreground="#333"/><!-- tytul zadania -->
+                                            <TextBlock Text="{Binding DueDate, StringFormat='  {0:dd.MM.yyyy}'}" Foreground="#777" FontSize="12" VerticalAlignment="Bottom" Margin="10,0,0,0"/><!-- data zadania -->
                                         </StackPanel>
 
-                                        <TextBlock Text="{Binding Description}" Foreground="#555" Margin="0,5,0,5"/>
+                                        <TextBlock Text="{Binding Description}" Foreground="#555" Margin="0,5,0,5"/><!-- opis zadania -->
                                     </StackPanel>
 
 
                                     <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top">
 
                                         <Button Width="35" Height="35" Margin="10,0,10,10" Background="Transparent" BorderThickness="0" HorizontalAlignment="Right" x:Name="buttontra" Click="DeleteTask_Click" >
-                                            <Image Source="/kosz.jpg" Stretch="Uniform" />
+                                            <Image Source="/kosz.jpg" Stretch="Uniform" /><!-- przycisk do usuwania pojedynczego zadania (kosz) -->
                                         </Button>
+                                        <!-- button zakańczający  -->
                                         <Border Grid.Column="4" Grid.Row="3" Height="40" Width="100" Background="#fcc2d7"
                                                 BorderBrush="#383332" BorderThickness="2" CornerRadius="10">
                                             <Button x:Name="buttonzak" FontSize="12" Padding="10,2" Height="30" Width="90" Background="Transparent" FontWeight="Bold" BorderBrush="#fcc2d7" Click="buttonzak_Click">
@@ -183,9 +196,12 @@
                 </ItemsControl>
             </StackPanel>
         </ScrollViewer>
-
-
-
+        <!-- button usuwający wszytskie zadania  -->
+        <Border Grid.Column="1" Grid.Row="6" Height="23" Background="#f783ac" BorderBrush="#383332"
+    BorderThickness="2" CornerRadius="10" Grid.ColumnSpan="2" Margin="0,7,76,0" />
+        <Button Grid.Column="1" Content="usuń wszystkie" HorizontalAlignment="Left" Margin="9,10,0,0" Padding="0,0,0,0" Grid.Row="6" VerticalAlignment="Top"
+                Width="126" Height="17" Grid.ColumnSpan="2" Background="#f783ac" FontFamily="Comic Sans MS" FontWeight="Bold" BorderBrush="#f783ac" FontSize="12"
+                HorizontalContentAlignment="Center" VerticalContentAlignment="Center" x:Name="btndeleteall" Click="btndeleteall_Click"/>
 
     </Grid>
 </Window>

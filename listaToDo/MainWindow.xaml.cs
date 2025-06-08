@@ -13,6 +13,9 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections;
 using System.IO;
+using System.Windows.Threading;
+
+
 
 namespace listaToDo
 {
@@ -21,8 +24,9 @@ namespace listaToDo
     /// </summary>
     public partial class MainWindow : Window
     {
+        
         public ObservableCollection<TaskItem> Tasks { get; set; } = new ObservableCollection<TaskItem>();
-
+       
         public MainWindow()
         {
             InitializeComponent();
@@ -31,10 +35,19 @@ namespace listaToDo
 
             var view = CollectionViewSource.GetDefaultView(Tasks);
             view.Filter = FilterTasks;
+            //przypisanie funkcji która wykona się zaraz po załadowaniu aplikacji
+            this.Loaded += MainWindow_Loaded;
+
+        }
+        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            //alert
+            ShowOneDayLeftAlerts();
         }
 
         private readonly string dataFile = "tasks.txt";
 
+        //zapisywanie zadań do pliku
         private void SaveTasksToFile()
         {
             var lines = new List<string>();
@@ -49,7 +62,7 @@ namespace listaToDo
             File.WriteAllLines(dataFile, lines);
         }
 
-        
+        //zastepowanie znaków
         private string Escape(string s)
         {
             if (string.IsNullOrEmpty(s))
@@ -58,6 +71,15 @@ namespace listaToDo
             
             return s.Replace(";", "\\;").Replace("\n", "\\n").Replace("\r", "");
         }
+        //odwracanie znaków
+        private string Unescape(string s)
+        {
+            if (string.IsNullOrEmpty(s))
+                return "";
+
+            return s.Replace("\\;", ";").Replace("\\n", "\n");
+        }
+        //wczytywanie zadań z pliku
         private void LoadTasksFromFile()
         {
             if (!File.Exists(dataFile))
@@ -85,17 +107,18 @@ namespace listaToDo
                 }
             }
         }
-
-        // Pomocnicza metoda do "rozpakowania" pola (odwrotność Escape)
-        private string Unescape(string s)
+        //pokazywanie alertów dla zadań które mają zostać ukończone za 1 dzień
+        private void ShowOneDayLeftAlerts()
         {
-            if (string.IsNullOrEmpty(s))
-                return "";
+            var tasksDueTomorrow = Tasks.Where(t =>
+                (t.DueDate.Date - DateTime.Now.Date).TotalDays == 1 && !t.IsCompleted).ToList();
 
-            return s.Replace("\\;", ";").Replace("\\n", "\n");
+            foreach (var task in tasksDueTomorrow)
+            {
+                MessageBox.Show($"Został 1 dzień do ukończenia zadania:\n{task.Title}", "Przypomnienie", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
-
-        // Rozdzielamy linię po średnikach z uwzględnieniem escape
+        // Metoda do podziału linii CSV na części (dzielenie na osobne zdania)
         private string[] SplitCsvLine(string line)
         {
             var result = new List<string>();
@@ -129,12 +152,13 @@ namespace listaToDo
             result.Add(current.ToString());
             return result.ToArray();
         }
+        //zapis zadań do pliku przy zamykaniu aplikacji
         protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
             SaveTasksToFile();
             base.OnClosing(e);
         }
-
+        // Sortowanie zadań według wybranej opcji w ComboBoxie
         private void combosort_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var selected = (combosort.SelectedItem as ComboBoxItem)?.Content?.ToString();
@@ -158,6 +182,7 @@ namespace listaToDo
                 view.SortDescriptions.Add(new SortDescription(nameof(TaskItem.IsCompleted), ListSortDirection.Ascending));
             }
         }
+        //Zmiana daty w labelu po wybraniu daty z DatePicker
         private void change_data(object sender, SelectionChangedEventArgs e)
         {
             if (datapic.SelectedDate.HasValue)
@@ -165,7 +190,16 @@ namespace listaToDo
             else
                 labdata.Content = "data";
         }
-        
+        //Usuwanie wszystkich zadań po kliknięciu przycisku
+        private void btndeleteall_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Czy na pewno chcesz usunąć wszystkie zadania?", "Potwierdzenie", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            {
+                Tasks.Clear();
+                SaveTasksToFile();
+            }
+        }
+        // Dodawanie nowego zadania po kliknięciu przycisku
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             string tytul = texttitle.Text;
@@ -173,6 +207,26 @@ namespace listaToDo
             DateTime data = datapic.SelectedDate ?? DateTime.Now;
             string priorytet = (comboprio.SelectedItem as ComboBoxItem)?.Content?.ToString();
 
+            if (string.IsNullOrEmpty(tytul) || tytul == "Wpisz tytuł...")
+            {
+                MessageBox.Show("Proszę wprowadzić tytuł zadania.", "Błąd", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            if (string.IsNullOrEmpty(opis) || opis == "Dodaj krótki opis")
+            {
+                MessageBox.Show("Proszę wprowadzić opis zadania.", "Błąd", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            if (datapic.SelectedDate == null)
+            {
+                MessageBox.Show("Proszę wybrać datę zadania.", "Błąd", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+            if (comboprio.SelectedIndex == 0)
+            {
+                MessageBox.Show("Proszę wybrać priorytet zadania.", "Błąd", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
             Tasks.Add(new TaskItem
             {
                 Title = tytul,
@@ -181,24 +235,23 @@ namespace listaToDo
                 Priority = priorytet,
                 IsCompleted = false
             });
-
-
-            texttitle.Text = "Wpisz zadanie...";
+            SaveTasksToFile();
+            // Czyszczenie pól po dodaniu zadania
+            texttitle.Text = "Wpisz tytuł...";
             textdescrip.Text = "Dodaj krótki opis";
             datapic.SelectedDate = null;
             comboprio.SelectedIndex = 0;
         }
-
+        //ustawianie textu w textboxach po kliku na nie
         private void texttitle_GotFocus(object sender, RoutedEventArgs e)
         {
             TextBox texttitle = sender as TextBox;
-            if (texttitle.Text == "Wpisz zadanie...")
+            if (texttitle.Text == "Wpisz tytuł...")
             {
                 texttitle.Text = "";
             }
 
         }
-
         private void textdescrip_GotFocus(object sender, RoutedEventArgs e)
         {
             TextBox textdescrip = sender as TextBox;
@@ -207,26 +260,28 @@ namespace listaToDo
                 textdescrip.Text = "";
             }
         }
-
+        //zmiana statu ukończenia zadania po kliknięciu przycisku
         private void buttonzak_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button btn && btn.DataContext is TaskItem task)
             {
                 task.IsCompleted = !task.IsCompleted;
-
+                //odświeżenie widoku po zmianie statusu
                 CollectionViewSource.GetDefaultView(Tasks).Refresh();
             }
 
         }
-
+        // Usuwanie zadania po kliknięciu przycisku
         private void DeleteTask_Click(object sender, RoutedEventArgs e)
         {
             var button = sender as Button;
             if (button?.DataContext is TaskItem taskToRemove)
             {
                 Tasks.Remove(taskToRemove);
+                SaveTasksToFile();
             }
         }
+        // Filtracja zadań według wybranej opcji (wszystkie, ukończone, nieukończone)
         private bool FilterTasks(object obj)
         {
             if (obj is TaskItem task)
@@ -240,59 +295,88 @@ namespace listaToDo
             }
             return false;
         }
+        //funkcja odswiezająca widok po zmianie stanu radio buttonów
         private void RadioButton_Checked(object sender, RoutedEventArgs e)
         {
             CollectionViewSource.GetDefaultView(Tasks).Refresh();
         }
 
     }
-
+    //classa TAskItem reprezentująca pojedyncze zadanie 
     public class TaskItem : INotifyPropertyChanged
     {
+        //pola klasy TaskItem
         private string title;
         private string description;
         private DateTime dueDate;
         private bool isCompleted;
+        private string priority;
 
-
+        //właściwości Title, Description, DueDate, IsCompleted, Priority i IsOneDayLeft
         public string Title
         {
-            get => title;
-            set { title = value; OnPropertyChanged(nameof(Title)); }
+            
+            get => title;//zwraca tytuł zadania
+            set { title = value; OnPropertyChanged(nameof(Title)); }//ustawia nową wartość title i wywołuje metodę OnPropertyChanged
         }
-
+        
         public string Description
         {
-            get => description;
-            set { description = value; OnPropertyChanged(nameof(Description)); }
+            get => description;//zwraca opis zadania
+            set { description = value; OnPropertyChanged(nameof(Description)); }//ustawia nową wartość description i wywołuje metodę OnPropertyChanged
         }
-
+        
         public DateTime DueDate
         {
             get => dueDate;
-            set { dueDate = value; OnPropertyChanged(nameof(DueDate)); }
+            set
+            {
+                if (dueDate != value)//sprawdzanie, czy nowa data różni się od aktualnej wartości pola dueDate.
+                {
+                    dueDate = value;
+                    OnPropertyChanged(nameof(DueDate));
+                    OnPropertyChanged(nameof(IsOneDayLeft));  
+                }
+            }
         }
-
         public bool IsCompleted
         {
             get => isCompleted;
-            set { isCompleted = value; OnPropertyChanged(nameof(IsCompleted)); }
+            set
+            {
+                if (isCompleted != value)// sprawdzanie, czy nowa wartość różni się od aktualnej wartości pola isCompleted.
+                {
+                    isCompleted = value;
+                    OnPropertyChanged(nameof(IsCompleted));
+                    OnPropertyChanged(nameof(IsOneDayLeft));  
+                }
+            }
         }
-        private string priority;
         public string Priority
         {
-            get => priority;
-            set { priority = value; OnPropertyChanged(nameof(Priority)); }
+            get => priority;// zwraca priorytet zadania
+            set { priority = value; OnPropertyChanged(nameof(Priority)); //ustawia nową wartość priority i wywołuje metodę OnPropertyChanged
+            }
+        }
+        //sprawdzanie czy zadanie ma zostać ukończone za 1 dzień
+        public bool IsOneDayLeft
+        {
+            get
+            {
+                var daysLeft = (DueDate.Date - DateTime.Now.Date).TotalDays;// obliczanie różnicy dni między datą zadania a aktualną datą
+                return !IsCompleted && daysLeft == 1;// zwraca true jeśli zadanie nie jest ukończone i zostało 1 dzień do jego ukończenia
+            }
+        }
+        public void Refresh()//fukcja odświeżająca widok zadania
+        {
+            OnPropertyChanged(nameof(IsOneDayLeft));
         }
 
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void OnPropertyChanged(string propertyName) =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-
-
+        public event PropertyChangedEventHandler PropertyChanged;//zdarzenie które jest wywoływane gdy zmienia się wartość dowolnej właściwości klasy.
+        public void OnPropertyChanged(string propertyName) =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));//powiadomienie o zmianie wartości właściwości jeśli jest zarejestrowany jakiś odbiorca tego zdarzenia.
     }
-    public class PriorityComparer : IComparer
+    public class PriorityComparer : IComparer//porównywanuje zadania według priorytetu
     {
         private readonly Dictionary<string, int> priorityOrder = new Dictionary<string, int>
     {
@@ -303,7 +387,7 @@ namespace listaToDo
 
         public int Compare(object x, object y)
         {
-            if (x is TaskItem a && y is TaskItem b)
+            if (x is TaskItem a && y is TaskItem b)//porównuje dwa zadania na podstawie ich priorytetu
             {
                 int aValue = priorityOrder.TryGetValue(a.Priority ?? "", out var ap) ? ap : int.MaxValue;
                 int bValue = priorityOrder.TryGetValue(b.Priority ?? "", out var bp) ? bp : int.MaxValue;
