@@ -42,33 +42,33 @@ Porządkowanie zadań – usuwaj wykonane zadania lub czyść całą listę na z
 
     WYMAGANIA FUNKCJONALNE
 
-- Dodawanie zadania
+-DODAWANIE ZADANIA
 
 Uczeń może dodać nowe zadanie, podając:
 
-    • tytuł (pole tekstowe z podpowiedzią „Wpisz tytuł...”),
+• tytuł (pole tekstowe z podpowiedzią „Wpisz tytuł...”),
 
-    • datę wykonania (kontrolka DatePicker),
+• datę wykonania (kontrolka DatePicker),
   
-    • krótki opis (pole tekstowe z podpowiedzią „Dodaj krótki opis”),
+• krótki opis (pole tekstowe z podpowiedzią „Dodaj krótki opis”),
   
-    • priorytet (lista: niski, średni, wysoki).
+• priorytet (lista: niski, średni, wysoki).
   
 Żadne pole nie może pozostać puste.
 
 Zadanie dodaje się po kliknięciu przycisku dodaj zadanie.
 
-- Wyświetlanie listy zadań
+-WYŚWIETLANIE LISTY ZADAŃ
   
 Główne okno aplikacji prezentuje wszystkie zadania w formie listy.
 
 Lista pokazuje podstawowe informacje o zadaniu (tytuł, data, statusem(ukończone/nieukończone) ).
 
--Oznaczanie zadań jako ukończone
+-OZNACZENIE ZADAŃ JAKO UKOŃCZONE
 
 Użytkownik może ręcznie oznaczyć zadanie jako wykonane, klikając przycisk „zakończ” przy zadaniu. Status zadania jest wtedy wizualnie zmieniony (np. zmiana tekstu przycisku na „zakończone”). 
 
--Usuwanie zadań
+-USUWANIE ZADAŃ
 
 Użytkownik może:
 
@@ -76,7 +76,7 @@ Użytkownik może:
 
 -wyczyścić całą listę zadań (przycisk „usuń wszystkie”).
 
--Sortowanie zadań
+-SORTOWANIE ZADAŃ
 
 Lista zadań jest automatycznie sortowana według:
 
@@ -86,19 +86,19 @@ priorytetu (malejąco – najpierw najważniejsze).
 
 statusu ukończenia (ukończone, nieukończone).
 
--Filtrowanie zadań
+-FILTROWANIE ZADAŃ
 Użytkownik może filtrować listę według:
 
 wszystkie,ukończone,do zrobienia.
 
--Powiadomienia
+-POWIADOMIENIA
 
 Aplikacja wyświetla alert lub powiadomienie systemowe na 1 dzień przed terminem zadania.
 
 Aplikacja wyświetla alert jeśli którekolwiek z pól do wypełnienia będzie puste gdy zostanie kliknięty przycisk dodaj zadanie.
 
 
--Automatyczny zapis
+-AUTOMATYCZNY ZAPIS
 
 Dane są zapisywane automatycznie po każdej zmianie (dodaniu, usunięciu, oznaczeniu jako ukończone).
 
@@ -107,11 +107,11 @@ Po ponownym uruchomieniu aplikacji lista zadań zostaje przywrócona.
 
 
     WYMAGANIA NIEFUNKCJONALNE
-    • Interfejs ma być intuicyjny i prosty w obsłudze dla uczniów w wieku szkolnym. 
-    • Aplikacja działa na systemie Windows, zbudowana w technologii WPF. 
-    • Aplikacja jest przygotowana do rozbudowy (np. dodanie kategorii zadań, powiadomień). 
-    • Aplikacja posiada estetyczny, spójny design z zaokrąglonymi elementami i pastelowymi kolorami. 
-    • Aplikacja posiada estetyczny, spójny design z zaokrąglonymi elementami z jasnym układem i czytelną czcionką (Comic Sans MS). 
+• Interfejs ma być intuicyjny i prosty w obsłudze dla uczniów w wieku szkolnym. 
+• Aplikacja działa na systemie Windows, zbudowana w technologii WPF. 
+• Aplikacja jest przygotowana do rozbudowy (np. dodanie kategorii zadań, powiadomień). 
+• Aplikacja posiada estetyczny, spójny design z zaokrąglonymi elementami i pastelowymi kolorami. 
+• Aplikacja posiada estetyczny, spójny design z zaokrąglonymi elementami z jasnym układem i czytelną czcionką (Comic Sans MS). 
 
 
 
