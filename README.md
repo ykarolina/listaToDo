@@ -5,17 +5,26 @@ Specyfikacja wymagań
 Tytuł i krótki opis 
 Lista ToDo to aplikacja desktopowa dla uczniów szkół średnich, która pomaga w organizowaniu codziennych zadań. Dzięki niej możesz zaplanować naukę, śledzić postępy i nigdy nie zapomnieć o zbliżających się terminach.
 Aplikacja umożliwia tworzenie, przeglądanie, edytowanie i usuwanie zadań związanych z nauką. Zadania są posortowane według daty i priorytetu, a system powiadomień przypomina o zbliżających się terminach.
+
 Służy do:
+
 Organizacji nauki i zadań domowych
+
 Przypominania o terminach
+
 Śledzenia postępów (status ukończenia)
+
 Lepszego zarządzania czasem
 
 Przykłady użycia:
 Planowanie nauki przed ważnym terminem – dodaj zadanie z wysokim priorytetem i określonym deadlinem.
+
 Zarządzanie codziennymi obowiązkami szkolnymi – twórz listę rzeczy do zrobienia na każdy dzień.
+
 Śledzenie postępów w nauce – oznaczaj wykonane zadania, aby mieć kontrolę nad tym, co już zrobione.
+
 Otrzymywanie przypomnień o zbliżających się terminach – aplikacja powiadomi Cię dzień wcześniej.
+
 Porządkowanie zadań – usuwaj wykonane zadania lub czyść całą listę na zakończenie tygodnia.
 Obraz przedstawiający działanie aplikacji:
 ![image](https://github.com/user-attachments/assets/17cf8a15-c7df-4270-9369-c98b802bfa1d)
