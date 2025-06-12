@@ -122,7 +122,7 @@ Po ponownym uruchomieniu aplikacji lista zadań zostaje przywrócona.
     Instalacja:
 1,Pobierz repozytorium:
 
-git clone https://github.com/twoj-login/listaToDo.git
+git clone https://github.com/ykarolina/listaToDo.git
 
 
 2.Otwórz projekt w Visual Studio 2022+
