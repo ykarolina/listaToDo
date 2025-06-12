@@ -108,15 +108,20 @@ Po ponownym uruchomieniu aplikacji lista zadań zostaje przywrócona.
 
     WYMAGANIA NIEFUNKCJONALNE
 • Interfejs ma być intuicyjny i prosty w obsłudze dla uczniów w wieku szkolnym. 
+
 • Aplikacja działa na systemie Windows, zbudowana w technologii WPF. 
+
 • Aplikacja jest przygotowana do rozbudowy (np. dodanie kategorii zadań, powiadomień). 
+
 • Aplikacja posiada estetyczny, spójny design z zaokrąglonymi elementami i pastelowymi kolorami. 
+
 • Aplikacja posiada estetyczny, spójny design z zaokrąglonymi elementami z jasnym układem i czytelną czcionką (Comic Sans MS). 
 
 
 
     Instalacja:
 1,Pobierz repozytorium:
+
 git clone https://github.com/twoj-login/listaToDo.git
 
 
