@@ -4,14 +4,14 @@ Projekt listyToDo
 
 Specyfikacja wymagań 
 
-Tytuł i krótki opis 
+    Tytuł i krótki opis 
 
 Lista ToDo to aplikacja desktopowa dla uczniów szkół średnich, która pomaga w organizowaniu codziennych zadań. Dzięki niej możesz zaplanować naukę, śledzić postępy i nigdy nie zapomnieć o zbliżających się terminach.
 
 Aplikacja umożliwia tworzenie, przeglądanie, edytowanie i usuwanie zadań związanych z nauką. Zadania są posortowane według daty i priorytetu, a system powiadomień przypomina o zbliżających się terminach.
 
 
-Służy do:
+    Służy do:
 
 Organizacji nauki i zadań domowych
 
@@ -23,7 +23,7 @@ Lepszego zarządzania czasem
 
 
 
-Przykłady użycia:
+    Przykłady użycia:
 
 Planowanie nauki przed ważnym terminem – dodaj zadanie z wysokim priorytetem i określonym deadlinem.
 
@@ -35,15 +35,15 @@ Otrzymywanie przypomnień o zbliżających się terminach – aplikacja powiadom
 
 Porządkowanie zadań – usuwaj wykonane zadania lub czyść całą listę na zakończenie tygodnia.
 
-Obraz przedstawiający działanie aplikacji:
+
 ![image](https://github.com/user-attachments/assets/17cf8a15-c7df-4270-9369-c98b802bfa1d)
 
 
 
-WYMAGANIA FUNKCJONALNE
+    WYMAGANIA FUNKCJONALNE
 
 - Dodawanie zadania
-- 
+
 Uczeń może dodać nowe zadanie, podając:
 
     • tytuł (pole tekstowe z podpowiedzią „Wpisz tytuł...”),
@@ -89,11 +89,7 @@ statusu ukończenia (ukończone, nieukończone).
 -Filtrowanie zadań
 Użytkownik może filtrować listę według:
 
-wszystkie,
-
-ukończone,
-
-do zrobienia.
+wszystkie,ukończone,do zrobienia.
 
 -Powiadomienia
 
@@ -110,7 +106,7 @@ Po ponownym uruchomieniu aplikacji lista zadań zostaje przywrócona.
 
 
 
-WYMAGANIA NIEFUNKCJONALNE
+    WYMAGANIA NIEFUNKCJONALNE
     • Interfejs ma być intuicyjny i prosty w obsłudze dla uczniów w wieku szkolnym. 
     • Aplikacja działa na systemie Windows, zbudowana w technologii WPF. 
     • Aplikacja jest przygotowana do rozbudowy (np. dodanie kategorii zadań, powiadomień). 
@@ -119,7 +115,7 @@ WYMAGANIA NIEFUNKCJONALNE
 
 
 
-Instalacja:
+    Instalacja:
 1,Pobierz repozytorium:
 git clone https://github.com/twoj-login/listaToDo.git
 
@@ -132,7 +128,7 @@ git clone https://github.com/twoj-login/listaToDo.git
 
 5.Kliknij Start
 
-Technologie
+    Technologie
 
 WPF (Windows Presentation Foundation) – interfejs graficzny
 
@@ -143,7 +139,7 @@ C# – język programowania
 Plik lokalny (np. XML/JSON) – do przechowywania danych
 
 
-Licencja
+    Licencja
 
 Projekt jest udostępniany na licencji MIT.
 
